@@ -8,6 +8,8 @@ place = st.text_input("Place: ")
 days = st.slider("Forcast Days", min_value=1, max_value=5,
                  help="Select the number of days to forecast")
 option = st.selectbox("Select data to view", options=("Temperature", "Sky"))
+temperature_measurement = st.selectbox("Select the temperature unit",
+                                       options=("C", "F"))
 
 st.header(f"Temperature for the next {"day" if days == 1 else f"{days} days"} "
           f" in {place}")
@@ -18,7 +20,12 @@ if place:
         filtered_data = get_data(place, days)
 
         if option == "Temperature":
-            temperatures = [dict["main"]["temp"] / 10 for dict in filtered_data]
+            temperatures = [dict["main"]["temp"]
+                            / 10 for dict in filtered_data]
+            if temperature_measurement is "F":
+                # Convert to Fahrenheit
+                temperatures = [temperature * (9/5) + 32
+                                for temperature in temperatures]
             dates = [dict["dt_txt"] for dict in filtered_data]
             # Create a temperature plot
             figure = px.line(x=dates, y=temperatures,
