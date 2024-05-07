@@ -11,8 +11,7 @@ option = st.selectbox("Select data to view", options=("Temperature", "Sky"))
 temperature_measurement = st.selectbox("Select the temperature unit",
                                        options=("C", "F"))
 
-st.header(f"Temperature for the next {"day" if days == 1 else f"{days} days"} "
-          f" in {place}")
+st.header(f"Temperature for the next {days} days in {place}")
 
 if place:
     try:
@@ -22,7 +21,7 @@ if place:
         if option == "Temperature":
             temperatures = [dict["main"]["temp"]
                             / 10 for dict in filtered_data]
-            if temperature_measurement is "F":
+            if temperature_measurement == "F":
                 # Convert to Fahrenheit
                 temperatures = [temperature * (9/5) + 32
                                 for temperature in temperatures]
