@@ -3,7 +3,8 @@ import requests
 
 
 def get_data(place, forecast_days=None):
-    url = os.getenv("WEATHER_API_KEY")
+    url = "http://api.openweathermap.org/data/2.5/forecast?appid="
+    url = url + os.getenv("WEATHER_API_KEY")
     url = url + f"&q={place}"
 
     response = requests.get(url)
